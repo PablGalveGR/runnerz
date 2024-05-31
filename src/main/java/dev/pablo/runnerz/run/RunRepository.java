@@ -23,7 +23,7 @@ public class RunRepository {
   RunRepository(JdbcClient jdbcClient) {
     this.jdbcClient = jdbcClient;
   }
-
+//Instert querys
   public int createRun(Run run) {
     String query = "INSERT INTO RUN"
         + "(id, title, started_on, completed_on, km, location)"
@@ -43,7 +43,7 @@ public class RunRepository {
     }
     return numberOfRuns;
   }
-
+//Update querys
   void updateRun(Run run, int id) {
     if (run.id() == id) {
       Optional<Run> existingRun = findbyid(id);
@@ -59,7 +59,7 @@ public class RunRepository {
       }
     }
   }
-
+//Delete querys
   void deleteRun(int id) {
     Optional<Run> existingRun = findbyid(id);
     if (existingRun.isPresent()) {
@@ -69,7 +69,7 @@ public class RunRepository {
           "Failed to Delete Run: " + existingRun.get().title());
     }
   }
-
+///Select querys
   List<Run> findAll() {
     String query = "SELECT * FROM run;";
     List<Run> runs = jdbcClient.sql(query).query(Run.class).list();
@@ -86,10 +86,9 @@ public class RunRepository {
     return run;
   }
   List <Run> findByTitle(String title){
-    Optional<Runs> findedRuns = Optional.empty();
     String query = "SELECT * FROM run WHERE title LIKE '%:title%';";
-    List <Run> runs = jdbcClient.sql(query).param("title", title).query(Run.class).list();
+    List <Run> findedRuns = jdbcClient.sql(query).param("title", title).query(Run.class).list();
     //indedRuns = jdbcClient.sql(query).param("title", title).query(Run.class).optional();
-    return runs;
+    return findedRuns;
   }
 }

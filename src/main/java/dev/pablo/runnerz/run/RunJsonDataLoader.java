@@ -24,6 +24,7 @@ public class RunJsonDataLoader implements CommandLineRunner {
   }
 
   @Override
+  // This method takes data from a Json and inserts them into the database
   public void run(String... args) throws Exception {
     // TODO Auto-generated method stub
     if(runRepository.count() == 0){
