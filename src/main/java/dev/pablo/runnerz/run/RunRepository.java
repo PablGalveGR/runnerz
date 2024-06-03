@@ -16,9 +16,6 @@ import dev.pablo.runnerz.RunnerzApplication;
 public class RunRepository {
   //private List<Run> runs = new ArrayList<>();
   private final JdbcClient jdbcClient;
-  private static final Logger log = LoggerFactory
-      .getLogger(RunnerzApplication.class);
-
   RunRepository(JdbcClient jdbcClient) {
     this.jdbcClient = jdbcClient;
   }

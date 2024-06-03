@@ -1,4 +1,4 @@
-package dev.pablo.runnerz.run;
+package dev.pablo.runnerz.runAdhoc;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -8,6 +8,8 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
+import dev.pablo.runnerz.run.Location;
+import dev.pablo.runnerz.run.Run;
 import jakarta.annotation.PostConstruct;
 @Repository
 public class RunRepository_Adhoc {
@@ -32,8 +34,8 @@ public class RunRepository_Adhoc {
     }
     @PostConstruct
     private void init(){
-       /* runs.add(new Run(0, "AAAAAAAA", LocalDateTime.now(), LocalDateTime.now().plus(1, ChronoUnit.HOURS), 20, Location.INNER));
-        runs.add(new Run(1, "BBBBBBBB", LocalDateTime.now(), LocalDateTime.now().plus(3, ChronoUnit.HOURS), 55, Location.OUTSIDE));
-        runs.add(new Run(4, "BBBBBBBB", LocalDateTime.now(), LocalDateTime.now().plus(2, ChronoUnit.HOURS), 55, Location.OUTSIDE)); */
+       runs.add(new Run(0, "AAAAAAAA", LocalDateTime.now(), LocalDateTime.now().plus(1, ChronoUnit.HOURS), 20, Location.INNER,1));
+        runs.add(new Run(1, "BBBBBBBB", LocalDateTime.now(), LocalDateTime.now().plus(3, ChronoUnit.HOURS), 55, Location.OUTSIDE,1));
+        runs.add(new Run(4, "BBBBBBBB", LocalDateTime.now(), LocalDateTime.now().plus(2, ChronoUnit.HOURS), 55, Location.OUTSIDE,1));
     }
 }
