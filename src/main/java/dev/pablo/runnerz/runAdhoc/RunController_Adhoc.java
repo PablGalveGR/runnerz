@@ -2,11 +2,11 @@ package dev.pablo.runnerz.runAdhoc;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import dev.pablo.runnerz.run.Run;
+import dev.pablo.runnerz.run.RunNotFoundException;
 import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Optional;
-import run.Run;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
