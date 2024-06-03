@@ -32,8 +32,8 @@ public class RunRepository_Adhoc {
     }
     @PostConstruct
     private void init(){
-        runs.add(new Run(0, "AAAAAAAA", LocalDateTime.now(), LocalDateTime.now().plus(1, ChronoUnit.HOURS), 20, Location.INNER));
+       /* runs.add(new Run(0, "AAAAAAAA", LocalDateTime.now(), LocalDateTime.now().plus(1, ChronoUnit.HOURS), 20, Location.INNER));
         runs.add(new Run(1, "BBBBBBBB", LocalDateTime.now(), LocalDateTime.now().plus(3, ChronoUnit.HOURS), 55, Location.OUTSIDE));
-        runs.add(new Run(4, "BBBBBBBB", LocalDateTime.now(), LocalDateTime.now().plus(2, ChronoUnit.HOURS), 55, Location.OUTSIDE));
+        runs.add(new Run(4, "BBBBBBBB", LocalDateTime.now(), LocalDateTime.now().plus(2, ChronoUnit.HOURS), 55, Location.OUTSIDE)); */
     }
 }

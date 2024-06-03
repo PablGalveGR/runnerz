@@ -11,7 +11,8 @@ public record Run(
     @NotNull LocalDateTime startedOn, 
     @NotNull LocalDateTime completedOn,
     @Positive int Km, 
-    Location location) {
+    Location location,
+    int runner ) {
   public Run {
     if (!completedOn.isAfter(startedOn)) {
       throw new IllegalArgumentException(

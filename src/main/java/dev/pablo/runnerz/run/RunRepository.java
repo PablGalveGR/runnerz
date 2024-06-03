@@ -1,6 +1,5 @@
 package dev.pablo.runnerz.run;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,7 +14,7 @@ import dev.pablo.runnerz.RunnerzApplication;
 
 @Repository
 public class RunRepository {
-  private List<Run> runs = new ArrayList<>();
+  //private List<Run> runs = new ArrayList<>();
   private final JdbcClient jdbcClient;
   private static final Logger log = LoggerFactory
       .getLogger(RunnerzApplication.class);
@@ -26,11 +25,11 @@ public class RunRepository {
 //Instert querys
   public int createRun(Run run) {
     String query = "INSERT INTO RUN"
-        + "(id, title, started_on, completed_on, km, location)"
-        + "VALUES(?, ?, ?, ?, ?, ?);";
+        + "(id, title, started_on, completed_on, km, location, runner)"
+        + "VALUES(?, ?, ?, ?, ?, ?, ?);";
     var updated = jdbcClient.sql(query)
         .params(List.of(run.id(), run.title(), run.startedOn(),
-            run.completedOn(), run.Km(), run.location().toString()))
+            run.completedOn(), run.Km(), run.location().toString(), run.runner()))
         .update();
     Assert.state(updated == 1, "Failed to create Run: " + run.title());
     return updated;
@@ -53,7 +52,7 @@ public class RunRepository {
         var updated = jdbcClient.sql(query)
             .params(
                 List.of(run.title(), run.startedOn(), run.completedOn(),
-                    run.Km(), run.location().toString(), run.id()))
+                    run.Km(), run.location().toString()))
             .update();
         Assert.state(updated == 1, "Failed to Update Run: " + run.title());
       }
@@ -88,7 +87,11 @@ public class RunRepository {
   List <Run> findByTitle(String title){
     String query = "SELECT * FROM run WHERE title LIKE '%:title%';";
     List <Run> findedRuns = jdbcClient.sql(query).param("title", title).query(Run.class).list();
-    //indedRuns = jdbcClient.sql(query).param("title", title).query(Run.class).optional();
+    return findedRuns;
+  }
+  List <Run> findByRunner(int runner){
+    String query = "SELECT * FROM run WHERE runner = :runner;";
+    List <Run> findedRuns = jdbcClient.sql(query).param("runner", runner).query(Run.class).list();
     return findedRuns;
   }
 }

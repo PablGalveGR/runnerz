@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-RunnerzApplication<runnerz>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "dev.pablo.runnerz.RunnerzApplication",
+            "projectName": "runnerz",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

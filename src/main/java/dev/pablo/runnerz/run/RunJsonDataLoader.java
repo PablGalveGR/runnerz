@@ -11,7 +11,6 @@ import java.io.InputStream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import dev.pablo.runnerz.run.RunRepository;
 @Component
 public class RunJsonDataLoader implements CommandLineRunner {
   private static final Logger log = LoggerFactory
