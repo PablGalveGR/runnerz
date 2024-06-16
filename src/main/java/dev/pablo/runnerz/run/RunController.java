@@ -46,7 +46,7 @@ public class RunController {
     return opRun;
   }
   @GetMapping("runner/{id}") 
-  List <Run> findByTitle(@PathVariable int id) {
+  List <Run> findByRunner(@PathVariable int id) {
     List<Run> opRun = runRepository.findByRunner(id);
     if (opRun.isEmpty()) {
       throw new RunNotFoundException();
