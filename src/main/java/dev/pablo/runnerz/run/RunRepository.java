@@ -2,7 +2,6 @@ package dev.pablo.runnerz.run;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
