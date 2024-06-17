@@ -5,6 +5,7 @@ import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 @RequestMapping("/api/runs") // General path that invoques this controller
-
+@CrossOrigin("http://127.0.0.1:5500")
 public class RunController {
   private final RunRepository runRepository;
 
@@ -24,6 +25,7 @@ public class RunController {
     this.runRepository = runRepository;
   }
 
+  
   @GetMapping("")
   List<Run> findAllRuns() {
     return runRepository.findAll();
