@@ -16,15 +16,26 @@ function addEditAndDelete(obj) {
 }
 
 let app = angular.module("runnerz", []);
-app.controller("getAllruns", function ($scope, $http) {
-  $http.get("http://127.0.0.1:8080/api/runs").then(function (response) {
+app.controller("runsController", function ($scope, $http) {
+  $scope.runs = {};
+  $scope.runsHeadersOrderBy = {};
+  $scope.run = {};
+  $scope.getAllRuns = $http.get("http://127.0.0.1:8080/api/runs").then(function (response) {
     $scope.runs = response.data;
-    $scope.headersOrderBy = getTableHeaders(Object.keys((response.data[0])));
+    $scope.runsHeadersOrderBy = getTableHeaders(Object.keys((response.data[0])));
     $scope.runs.forEach(addEditAndDelete);
     $scope.headers = getTableHeaders(Object.keys(($scope.runs[0])));
-    //console.log($scope.runs[0]);
+    console.log($scope.runs[0]);
   });
-  $scope.goToDetail = function(object = "Not object received"){
+  $scope.goToDetail = function (object = "Not object received") {
+    $scope.getRun(object.id);
     console.log("go to detail of: " + object.title + " With id: " + object.id);
+  }
+  $scope.getRun = function (id) {
+    $http.get("http://127.0.0.1:8080/api/runs/" + id).then(function (response) {
+      $scope.run = response.data;
+      $scope.runHeaders = getTableHeaders(Object.keys(($scope.run)));
+      //console.log($scope.run);
+    })
   }
 });
