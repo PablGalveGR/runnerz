@@ -31,6 +31,13 @@ app.controller("runsController", function ($scope, $http) {
     $scope.getRun(object.id);
     console.log("go to detail of: " + object.title + " With id: " + object.id);
   }
+  function getUserName(id) {
+    let name = "";
+    $http.get("http://127.0.0.1:8080/api/runs/" + id).then(function (response) {
+      let runner = response.data;
+      name = runner.username;
+    });
+  }
   $scope.getRun = function (id) {
     $http.get("http://127.0.0.1:8080/api/runs/" + id).then(function (response) {
       $scope.run = response.data;

@@ -1,5 +1,6 @@
 package dev.pablo.runnerz.run;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.jdbc.core.simple.JdbcClient;
@@ -9,12 +10,12 @@ import org.springframework.util.Assert;
 
 @Repository
 public class RunRepository {
-  //private List<Run> runs = new ArrayList<>();
+  private List<Run> runs = new ArrayList();
   private final JdbcClient jdbcClient;
   RunRepository(JdbcClient jdbcClient) {
     this.jdbcClient = jdbcClient;
   }
-//Instert querys
+//Insert querys
   public int createRun(Run run) {
     String query = "INSERT INTO RUN"
         + "(id, title, started_on, completed_on, km, location, runner)"
@@ -63,7 +64,7 @@ public class RunRepository {
 ///Select querys
   List<Run> findAll() {
     String query = "SELECT * FROM run;";
-    List<Run> runs = jdbcClient.sql(query).query(Run.class).list();
+    runs = jdbcClient.sql(query).query(Run.class).list();
     return runs;
   }
   public int count(){
@@ -78,12 +79,12 @@ public class RunRepository {
   }
   List <Run> findByTitle(String title){
     String query = "SELECT * FROM run WHERE title LIKE '%:title%';";
-    List <Run> findedRuns = jdbcClient.sql(query).param("title", title).query(Run.class).list();
-    return findedRuns;
+    runs = jdbcClient.sql(query).param("title", title).query(Run.class).list();
+    return runs;
   }
   List <Run> findByRunner(int runner){
     String query = "SELECT * FROM run WHERE runner = :runner;";
-    List <Run> findedRuns = jdbcClient.sql(query).param("runner", runner).query(Run.class).list();
-    return findedRuns;
+    runs = jdbcClient.sql(query).param("runner", runner).query(Run.class).list();
+    return runs;
   }
 }
