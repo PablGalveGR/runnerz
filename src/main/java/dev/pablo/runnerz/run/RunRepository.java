@@ -10,7 +10,7 @@ import org.springframework.util.Assert;
 
 @Repository
 public class RunRepository {
-  private List<Run> runs = new ArrayList();
+  private List<Run> runs = new ArrayList<Run>();
   private final JdbcClient jdbcClient;
   RunRepository(JdbcClient jdbcClient) {
     this.jdbcClient = jdbcClient;

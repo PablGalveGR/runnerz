@@ -3,11 +3,15 @@ package dev.pablo.runnerz.user;
 import java.util.List;
 import java.util.Optional;
 
+import org.json.JSONObject;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.fasterxml.jackson.databind.util.JSONPObject;
+
 import dev.pablo.runnerz.run.RunNotFoundException;
 @RestController
 @RequestMapping("/api/users") // General path that invoques this controller
@@ -30,12 +34,14 @@ public class UserController {
     }
     return opUser.get();
   }
-  @GetMapping("/name/{id}") 
-  User findOneUserName(@PathVariable int id) {
-    Optional<User> opUser = userRepository.getUserNameById(id);
-    if (opUser.isEmpty()) {
+  @GetMapping("name/{id}") 
+  JSONObject findOneUserName(@PathVariable int id) {
+    String username = userRepository.getUserNameById(id);
+    if (username.isEmpty()) {
       throw new RunNotFoundException();
     }
-    return opUser.get();
+    JSONObject obj = new JSONObject();
+    obj.put("name", username);
+    return obj;
   }
 }

@@ -35,8 +35,7 @@
         <th>
           {{header}}
         </th>
-        <td ng-if = "!header.equals('CompletedOn') || !header.equals('StartedOn') || !header.equals('Km')">{{run[header.toLowerCase()]}}</td>
-        <td ng-if = "header.equals('Km')">{{run[header]}}</td>
+        <td>{{run[header]}}</td>
       </tr>
     </table>
   </div>
