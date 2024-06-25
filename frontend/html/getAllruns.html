@@ -35,7 +35,8 @@
         <th>
           {{header}}
         </th>
-        <td>{{run[header]}}</td>
+        <td ng-if ="header != 'runner'">{{run[header]}}</td>
+        <td ng-if ="header === 'runner'">Paco</td>
       </tr>
     </table>
   </div>

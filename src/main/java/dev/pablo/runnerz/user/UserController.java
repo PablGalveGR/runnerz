@@ -35,13 +35,16 @@ public class UserController {
     return opUser.get();
   }
   @GetMapping("name/{id}") 
-  JSONObject findOneUserName(@PathVariable int id) {
-    String username = userRepository.getUserNameById(id);
-    if (username.isEmpty()) {
+  User findOneUserName(@PathVariable int id) {
+   Optional <User> opUser = userRepository.getUserNameById(id);
+   User user = new User();
+    if (opUser.isEmpty()) {
       throw new RunNotFoundException();
     }
-    JSONObject obj = new JSONObject();
-    obj.put("name", username);
-    return obj;
+    else{
+      user = opUser.get();
+      user.setPassword(null);
+    }
+    return user;
   }
 }

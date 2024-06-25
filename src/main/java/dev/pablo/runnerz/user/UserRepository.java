@@ -31,12 +31,12 @@ public class UserRepository {
     return runner;
   }
 
-  String getUserNameById(int id) {
+  Optional <User> getUserNameById(int id) {
     String query = "SELECT * FROM runner r WHERE id = :id;";
     Optional<User> runner = jdbcClient.sql(query).param("id", id)
         .query(User.class).optional();
     if (runner.isPresent()) {
-      return runner.get().username;
+      return runner;
     }
     return null;
   }

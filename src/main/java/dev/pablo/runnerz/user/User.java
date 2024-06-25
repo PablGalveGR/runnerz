@@ -10,6 +10,9 @@ public class User {
   String username;
   String password;
 
+  public User() {
+  }
+
   public User(@Positive int id, @NotNull String username,
       String password) {
     this.id = id;

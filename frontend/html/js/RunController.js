@@ -10,6 +10,7 @@ function getTableHeaders(tableHeaders) {
   }
   return headers
 }
+
 function addEditAndDelete(obj) {
   obj.edit = "";
   obj.delete = "";
@@ -34,23 +35,21 @@ app.controller("runsController", function ($scope, $http) {
     $scope.getRun(object.id);
     console.log("go to detail of: " + object.title + " With id: " + object.id);
   }
-  function getUserName(id) {/// Returns a string with the User's name
-    let name = "";
-    $http.get("http://127.0.0.1:8080/api/users/name/" + id).then(function (response) {
-      let runner = response.data;
-      name = runner;
-      console.log("Username = " + runner);
-    });
-    return name;
-  }
   $scope.getRun = function (id) {
     $http.get("http://127.0.0.1:8080/api/runs/" + id).then(function (response) {
       $scope.run = response.data;
       $scope.runHeaders = Object.keys(($scope.run));
-      $scope.run.runner = getUserName($scope.run.runner);
-      console.log($scope.run.runner);
       //$scope.runHeaders = getTableHeaders(Object.keys(($scope.run)));
       //console.log($scope.run);
     })
+  }
+  $scope.getUserName = function (id) {/// Returns an Json with the User's name
+    let name = "";
+    $http.get("http://127.0.0.1:8080/api/users/name/" + id).then(function (response) {
+      let runner = response.data;
+      name = runner.username;
+      console.log("Username = " + runner.username);
+    });
+    return name;
   }
 });
