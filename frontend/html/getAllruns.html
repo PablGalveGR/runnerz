@@ -7,38 +7,39 @@
   <link rel="stylesheet" href="../css/main.css">
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
   <script src="../html/js/RunController.js"></script>
-  <title>Document</title>
+  <title>Runnerz</title>
 </head>
 
 <body>
   <div ng-app="runnerz" ng-controller="runsController">
-    <p>AngularJS examples of data representation in tables:</p>
-    <p>OrderBy:
+    <p>AngularJS examples of data representation in tables:{{getAllruns()}}</p>
+    <div>
       <select ng-model="order" ng-options="header for header in runsHeadersOrderBy">
       </select>
-    </p>
-    <table>
-      <tr>
-        <th ng-repeat="header in headers">
-          {{header}}
-        </th>
-      </tr>
-      <tr ng-repeat="run in runs | orderBy : order" ng-click="goToDetail(run)" class="getTableLine">
-        <td ng-repeat="data in run">
-          {{data}}
-        </td>
-      </tr>
-    </table>
-    <h2>Run detail</h2>
-    <table>
-      <tr ng-repeat="header in runHeaders">
-        <th>
-          {{header}}
-        </th>
-        <td ng-if ="header != 'runner'">{{run[header]}}</td>
-        <td ng-if ="header === 'runner'">Paco</td>
-      </tr>
-    </table>
+      </p>
+      <table>
+        <tr>
+          <th ng-repeat="header in headers">
+            {{header}}
+          </th>
+        </tr>
+        <tr ng-repeat="run in runs | orderBy : order" ng-click="goToDetail(run)" class="getTableLine">
+          <td ng-repeat="data in run">
+            {{data}}
+          </td>
+        </tr>
+      </table>
+      <h2>Run detail</h2>
+      <table>
+        <tr ng-repeat="header in runHeaders">
+          <th>
+            {{header}}
+          </th>
+          <td ng-if="header != 'runner'">{{run[header]}}</td>
+          <td ng-if="header === 'runner'">{{run[header]}}</td>
+        </tr>
+      </table>
+    </div>
   </div>
 </body>
 

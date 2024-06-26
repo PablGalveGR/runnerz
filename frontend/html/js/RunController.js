@@ -18,6 +18,7 @@ function addEditAndDelete(obj) {
 
 let app = angular.module("runnerz", []);
 app.controller("runsController", function ($scope, $http) {
+  $scope.runner = {};
   $scope.runs = {};
   $scope.runsHeadersOrderBy = {};
   $scope.run = {};
@@ -32,24 +33,26 @@ app.controller("runsController", function ($scope, $http) {
     console.log($scope.runs[0]);
   });
   $scope.goToDetail = function (object = "Not object received") {
-    $scope.getRun(object.id);
+    $scope.getRun(object);
     console.log("go to detail of: " + object.title + " With id: " + object.id);
   }
-  $scope.getRun = function (id) {
-    $http.get("http://127.0.0.1:8080/api/runs/" + id).then(function (response) {
-      $scope.run = response.data;
+  $scope.getRun = function (run) {
+      $scope.run = Object.assign({}, run);
       $scope.runHeaders = Object.keys(($scope.run));
+      $scope.run.runner = $scope.getUserName($scope.run.runner);
       //$scope.runHeaders = getTableHeaders(Object.keys(($scope.run)));
-      //console.log($scope.run);
-    })
+      console.log("Runner username set: " +$scope.run.runner);
   }
   $scope.getUserName = function (id) {/// Returns an Json with the User's name
-    let name = "";
-    $http.get("http://127.0.0.1:8080/api/users/name/" + id).then(function (response) {
-      let runner = response.data;
-      name = runner.username;
-      console.log("Username = " + runner.username);
-    });
-    return name;
+    if ($scope.runner.id != id || $scope.runner == null) {
+      $scope.runner.id = id;
+      $http.get("http://127.0.0.1:8080/api/users/name/" + id).then(function (response) {
+        let runner = response.data;
+        $scope.runner.name = runner.username;
+        console.log("Username = " + runner.username);
+      }, function () { console.log("Error fetching runner name") });
+    }
+    return $scope.runner.name;
+
   }
 });
