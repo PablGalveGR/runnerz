@@ -26,6 +26,8 @@ app.controller("runsController", function ($scope, $http) {
     $scope.runs = response.data;
     $scope.runsHeadersOrderBy = getTableHeaders(Object.keys((response.data[0])));
     $scope.runs.forEach(addEditAndDelete);
+    //Replace all runner ids with their respective names
+    $scope.runs.forEach($scope.getUserName);
     /*
     $scope.headers = getTableHeaders(Object.keys(($scope.runs[0])));
     */
@@ -37,22 +39,21 @@ app.controller("runsController", function ($scope, $http) {
     console.log("go to detail of: " + object.title + " With id: " + object.id);
   }
   $scope.getRun = function (run) {
-      $scope.run = Object.assign({}, run);
-      $scope.runHeaders = Object.keys(($scope.run));
-      $scope.run.runner = $scope.getUserName($scope.run.runner);
-      //$scope.runHeaders = getTableHeaders(Object.keys(($scope.run)));
-      console.log("Runner username set: " +$scope.run.runner);
+    $scope.run = Object.assign({}, run);
+    $scope.runHeaders = Object.keys(($scope.run));
+    //$scope.run.runner = $scope.getUserName($scope.run.runner);
+    //$scope.runHeaders = getTableHeaders(Object.keys(($scope.run)));
+    console.log("Runner username set: " + $scope.run.runner);
   }
-  $scope.getUserName = function (id) {/// Returns an Json with the User's name
-    if ($scope.runner.id != id || $scope.runner == null) {
-      $scope.runner.id = id;
-      $http.get("http://127.0.0.1:8080/api/users/name/" + id).then(function (response) {
+  $scope.getUserName = function (obj) {/// Returns an Json with the User's name
+    if ($scope.runner.id != obj.runner || $scope.runner == null) {
+      $scope.runner.id = obj.runner;
+      $http.get("http://127.0.0.1:8080/api/users/name/" + $scope.runner.id).then(function (response) {
         let runner = response.data;
         $scope.runner.name = runner.username;
+        obj.runner = runner.name;
         console.log("Username = " + runner.username);
       }, function () { console.log("Error fetching runner name") });
     }
-    return $scope.runner.name;
-
   }
 });
