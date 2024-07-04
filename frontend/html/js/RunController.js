@@ -12,14 +12,16 @@ function getTableHeaders(tableHeaders) {
 }
 
 function addEditAndDelete(obj) {
-  obj.edit = "";
-  obj.delete = "";
+  obj.edit = "edit";
+  obj.delete = "delete";
 }
 
 let app = angular.module("runnerz", []);
 app.controller("runsController", function ($scope, $http) {
   $scope.runner = { 'id': '', 'name': '' }
   $scope.runs = {};
+  $scope.detailRun = false;
+  $scope.editRun = false;
   //$scope.runsHeadersOrderBy = {};
   $scope.run = {};
   $scope.runs = {};
@@ -55,15 +57,29 @@ app.controller("runsController", function ($scope, $http) {
     return obj;
   }
   $scope.goToDetail = function (object = "Not object received") {
+    $scope.detailRun = true;
+    $scope.editRun = false;
     $scope.getRun(object);
     console.log("go to detail of: " + object.title + " With id: " + object.id);
   }
+  $scope.goToEdit = function (object = "Not object received") {
+    $scope.detailRun = false;
+    $scope.editRun = true;
+    $scope.getRun(object);
+    console.log("go to edit of: " + object.title + " With id: " + object.id);
+  }
   $scope.getRun = function (run) {
     $scope.run = Object.assign({}, run);
+    delete $scope.run.edit;
+    delete $scope.run.delete;
     $scope.runHeaders = Object.keys(($scope.run));
     //$scope.run.runner = $scope.getUserName($scope.run.runner);
     //$scope.runHeaders = getTableHeaders(Object.keys(($scope.run)));
     console.log("Runner username set: " + $scope.run.runner);
+  }
+
+  $scope.editRun = function(run){
+    console.log("Run to edit: "+run.id);
   }
 
 });
