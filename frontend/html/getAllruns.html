@@ -28,7 +28,7 @@
           </td>
         </tr>
       </table>
-      <div ng-if="detailRun">
+      <div ng-if="detailRun == true">
         <h2>Run detail</h2>
         <table>
           <tr ng-repeat="header in runHeaders">
@@ -39,7 +39,7 @@
           </tr>
         </table>
       </div>
-      <div ng-if="editRun">
+      <div ng-if="editRun == true">
         <h2>Run Edit</h2>
         <table>
           <form name="editRunForm">
@@ -47,11 +47,15 @@
               <th>
                 {{header}}
               </th>
-              <td><input ng-if="header != 'startedOn' && header != 'completedOn'" type="text" name="{{header}}"
+              <td>
+                <p ng-if = "header == 'id'">{{run[header]}}</p>
+                <input ng-if="header != 'startedOn' && header != 'completedOn' && header != 'id'" type="text" name="{{header}}"
                   placeholder="{{run[header]}}" value="{{run[header]}}">
                 <!--<input ng-if="header == 'startedOn' || header == 'completedOn'" type="datetime-local" value="{{run[header]}}"></td>-->
               </td>
-
+            </tr>
+            <tr>
+              <td><input type="button" name="edit" value = "Edit"></td>
             </tr>
           </form>
         </table>
