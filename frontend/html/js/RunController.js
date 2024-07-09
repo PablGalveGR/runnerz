@@ -82,8 +82,11 @@ app.controller("runsController", function ($scope, $http) {
     let form = document.forms["editRunForm"];
     let runToUpdate ={};
     for(property of Object.keys($scope.run)){
-      runToUpdate[property] = document.getElementsByName(property).value;
+      let element = document.getElementsByName(property)[0];
+      let value = element.value
+      runToUpdate[property] = value;
     }
+    console.log("Run to update: " + runToUpdate.id)
   }
   function editRun(run){
     console.log("Run to edit: "+run.id);

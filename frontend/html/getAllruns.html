@@ -51,7 +51,7 @@
                 <input type="number" value = "{{run[header]}}" disabled ng-if = "header == 'id'" name ="{{header}}">
                 <input ng-if="header != 'startedOn' && header != 'completedOn' && header != 'id'" type="text" name="{{header}}"
                   placeholder="{{run[header]}}" value="{{run[header]}}">
-                <!--<input ng-if="header == 'startedOn' || header == 'completedOn'" type="datetime-local" value="{{run[header]}}"></td>-->
+                <input ng-if="header == 'startedOn' || header == 'completedOn'" type="datetime-local" name = "{{header}}"value="2024-05-27T15:37"></td>
               </td>
             </tr>
             <tr>
