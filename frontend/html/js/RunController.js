@@ -62,12 +62,6 @@ app.controller("runsController", function ($scope, $http) {
     $scope.getRun(object);
     console.log("go to detail of: " + object.title + " With id: " + object.id);
   }
-  $scope.goToEdit = function (object = "Not object received") {
-    $scope.detailRun = false;
-    $scope.editRun = true;
-    $scope.getRun(object);
-    console.log("go to edit of: " + object.title + " With id: " + object.id);
-  }
   $scope.getRun = function (run) {
     $scope.run = Object.assign({}, run);
     delete $scope.run.edit;
@@ -77,9 +71,22 @@ app.controller("runsController", function ($scope, $http) {
     //$scope.runHeaders = getTableHeaders(Object.keys(($scope.run)));
     console.log("Runner username set: " + $scope.run.runner);
   }
-
-  $scope.editRun = function(run){
-    console.log("Run to edit: "+run.id);
+  /////Edit Runs
+  $scope.goToEdit = function (object = "Not object received") {
+    $scope.detailRun = false;
+    $scope.editRun = true;
+    $scope.getRun(object);
+    console.log("go to edit of: " + object.title + " With id: " + object.id);
   }
-
+  $scope.getRunEdit = function(){
+    let form = document.forms["editRunForm"];
+    let runToUpdate ={};
+    for(property of Object.keys($scope.run)){
+      runToUpdate[property] = document.getElementsByName(property).value;
+    }
+  }
+  function editRun(run){
+    console.log("Run to edit: "+run.id);
+    $http.post("http://127.0.0.1:8080//api/runs/delete/"+run.id, run).then(console-log("Run edited boi"));
+  }
 });
