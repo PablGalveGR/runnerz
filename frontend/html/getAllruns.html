@@ -49,9 +49,21 @@
               </th>
               <td>
                 <input type="number" value = "{{run[header]}}" disabled ng-if = "header == 'id'" name ="{{header}}">
-                <input ng-if="header != 'startedOn' && header != 'completedOn' && header != 'id'" type="text" name="{{header}}"
+                <input ng-if="header != 'startedOn' && header != 'completedOn' && header != 'id' && header != 'location'" type="text" name="{{header}}"
                   placeholder="{{run[header]}}" value="{{run[header]}}">
-                <input ng-if="header == 'startedOn' || header == 'completedOn'" type="datetime-local" name = "{{header}}"value="2024-05-27T15:37"></td>
+                <select name = "{{header}}" ng-if ="header == 'location'">
+                  <option value ="{{run[header]}}" selected>{{run[header]}}</option>
+                  <option ng-if="run[header] != 'INNER'"value ="INNER">INNER</option>
+                  <option ng-if="run[header] != 'OUTSIDE'"value ="OUTSIDE">OUTSIDE</option>
+                </select>
+                <input ng-if="header == 'startedOn' || header == 'completedOn'" type="datetime-local" name = "{{header}}"value="{{run[header]}}">
+                <select name = "{{header}}" ng-if ="header == 'runner'">
+                  <span ng-repeat = "user in users">
+                  <option ng-if ="user.name == run[header]" value ="user.id" selected>{{user.name}}</option>
+                  <option value ="user.id">{{user.username}}</option>
+                </span>
+                </select>
+                
               </td>
             </tr>
             <tr>

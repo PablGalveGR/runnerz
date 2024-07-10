@@ -78,18 +78,21 @@ app.controller("runsController", function ($scope, $http) {
     $scope.getRun(object);
     console.log("go to edit of: " + object.title + " With id: " + object.id);
   }
-  $scope.getRunEdit = function(){
-    let form = document.forms["editRunForm"];
-    let runToUpdate ={};
-    for(property of Object.keys($scope.run)){
+  $scope.getRunEdit = function () {
+    let runToUpdate = {};
+    for (property of Object.keys($scope.run)) {
       let element = document.getElementsByName(property)[0];
       let value = element.value
       runToUpdate[property] = value;
     }
-    console.log("Run to update: " + runToUpdate.id)
+    console.log("Run to update: " + runToUpdate.id);
+    editRun(runToUpdate);
   }
-  function editRun(run){
-    console.log("Run to edit: "+run.id);
-    $http.post("http://127.0.0.1:8080//api/runs/delete/"+run.id, run).then(console-log("Run edited boi"));
+  function editRun(run) {
+    console.log("Run to edit: " + run.id);
+    $http.post("http://127.0.0.1:8080/api/runs/update/" + run.id, run).
+    then(console - log("Run edited boi")), 
+    function () { console.log("Error updating run") };
+    getAllRuns();
   }
 });
