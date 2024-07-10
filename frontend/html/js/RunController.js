@@ -22,9 +22,11 @@ app.controller("runsController", function ($scope, $http) {
   $scope.runs = {};
   $scope.detailRun = false;
   $scope.editRun = false;
+  $scope.users = {};
   //$scope.runsHeadersOrderBy = {};
   $scope.run = {};
   $scope.runs = {};
+  getAllUsers();
   getAllRuns();
   function getAllRuns() {
     $http.get("http://127.0.0.1:8080/api/runs").then(function (response) {
@@ -39,6 +41,11 @@ app.controller("runsController", function ($scope, $http) {
           $scope.runs = Object.assign({}, runs);
         }
       }
+    });
+  }
+  function getAllUsers(){
+    $http.get("http://127.0.0.1:8080/api/users").then(function (response){
+      $scope.users = response.data;
     });
   }
   function getUserName(obj) {

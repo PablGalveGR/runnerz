@@ -42,32 +42,33 @@
       <div ng-if="editRun == true">
         <h2>Run Edit</h2>
         <table>
-          <form id="editRunForm" action ="./">
+          <form id="editRunForm" action="./">
             <tr ng-repeat="header in runHeaders">
               <th>
                 {{header}}
               </th>
               <td>
-                <input type="number" value = "{{run[header]}}" disabled ng-if = "header == 'id'" name ="{{header}}">
-                <input ng-if="header != 'startedOn' && header != 'completedOn' && header != 'id' && header != 'location'" type="text" name="{{header}}"
-                  placeholder="{{run[header]}}" value="{{run[header]}}">
-                <select name = "{{header}}" ng-if ="header == 'location'">
-                  <option value ="{{run[header]}}" selected>{{run[header]}}</option>
-                  <option ng-if="run[header] != 'INNER'"value ="INNER">INNER</option>
-                  <option ng-if="run[header] != 'OUTSIDE'"value ="OUTSIDE">OUTSIDE</option>
+                <input type="number" value="{{run[header]}}" disabled ng-if="header == 'id'" name="{{header}}">
+                <input
+                  ng-if="header != 'startedOn' && header != 'completedOn' && header != 'id' && header != 'location' && header != 'runner'"
+                  type="text" name="{{header}}" placeholder="{{run[header]}}" value="{{run[header]}}">
+                <select name="{{header}}" ng-if="header == 'location'">
+                  <option value="{{run[header]}}" selected>{{run[header]}}</option>
+                  <option ng-if="run[header] != 'INNER'" value="INNER">INNER</option>
+                  <option ng-if="run[header] != 'OUTSIDE'" value="OUTSIDE">OUTSIDE</option>
                 </select>
-                <input ng-if="header == 'startedOn' || header == 'completedOn'" type="datetime-local" name = "{{header}}"value="{{run[header]}}">
-                <select name = "{{header}}" ng-if ="header == 'runner'">
-                  <span ng-repeat = "user in users">
-                  <option ng-if ="user.name == run[header]" value ="user.id" selected>{{user.name}}</option>
-                  <option value ="user.id">{{user.username}}</option>
-                </span>
+                <input ng-if="header == 'startedOn' || header == 'completedOn'" type="datetime-local" name="{{header}}"
+                  value="{{run[header]}}">
+                <select name="{{header}}" ng-if="header == 'runner'">
+                  <option ng-repeat="user in users" ng-if="user.username == run.runner" value="user.id"
+                    ng-selected="user.username == run.runner">
+                    {{user.username}}</option>
                 </select>
-                
+
               </td>
             </tr>
             <tr>
-              <td><input type="submit" name="edit" value = "Edit" ng-click="getRunEdit()"></td>
+              <td><input type="submit" name="edit" value="Edit" ng-click="getRunEdit()"></td>
             </tr>
           </form>
         </table>

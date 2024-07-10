@@ -3,27 +3,29 @@ package dev.pablo.runnerz.user;
 import java.util.List;
 import java.util.Optional;
 
-import org.json.JSONObject;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
 
 import dev.pablo.runnerz.run.RunNotFoundException;
 @RestController
 @RequestMapping("/api/users") // General path that invoques this controller
 @CrossOrigin("http://127.0.0.1:5500")
-public class UserController {
+public class UserController {//Never return the password to the Client
   private final UserRepository userRepository;
  public UserController (UserRepository userRepository){
   this.userRepository = userRepository;
  }
 @GetMapping("")
   List<User> findAllUsers() {
-    return userRepository.getAllUsers();
+    List<User> users = userRepository.getAllUsers();
+    for (User user : users) {
+      user.setPassword(null);
+    }
+    return users;
   }
 // General path plus an element to pass to the controller
   @GetMapping("{id}") 
