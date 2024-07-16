@@ -97,8 +97,8 @@ app.controller("runsController", function ($scope, $http) {
   }
   function editRun(run) {
     console.log("Run to edit: " + run.id);
-    $http.post("http://127.0.0.1:8080/api/runs/update/" + run.id, run).
-    then(console - log("Run edited boi")), 
+    $http.put("http://127.0.0.1:8080/api/runs/update/" + run.id, run).
+    then(console.log("Run edited boi")), 
     function () { console.log("Error updating run") };
     getAllRuns();
   }

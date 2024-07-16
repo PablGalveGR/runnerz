@@ -45,7 +45,7 @@ public class RunRepository {
         var updated = jdbcClient.sql(query)
             .params(
                 List.of(run.title(), run.startedOn(), run.completedOn(),
-                    run.Km(), run.location().toString()))
+                    run.Km(), run.location().toString(), run.id()))
             .update();
         Assert.state(updated == 1, "Failed to Update Run: " + run.title());
       }

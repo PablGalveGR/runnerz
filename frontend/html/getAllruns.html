@@ -60,7 +60,7 @@
                 <input ng-if="header == 'startedOn' || header == 'completedOn'" type="datetime-local" name="{{header}}"
                   value="{{run[header]}}">
                 <select name="{{header}}" ng-if="header == 'runner'">
-                  <option ng-repeat="user in users" ng-if="user.username == run.runner" value="user.id"
+                  <option ng-repeat="user in users" value="{{user.id}}"
                     ng-selected="user.username == run.runner">
                     {{user.username}}</option>
                 </select>
