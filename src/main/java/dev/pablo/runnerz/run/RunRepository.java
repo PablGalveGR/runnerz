@@ -41,11 +41,11 @@ public class RunRepository {
       Optional<Run> existingRun = findbyid(id);
       if (existingRun.isPresent()) {
         String query = "UPDATE run SET title = ?, started_on = ?,"
-            + "completed_on = ?, km = ?, location = ? WHERE id = ?;";
+            + "completed_on = ?, km = ?, location = ?, runner = ? WHERE id = ?;";
         var updated = jdbcClient.sql(query)
             .params(
                 List.of(run.title(), run.startedOn(), run.completedOn(),
-                    run.Km(), run.location().toString(), run.id()))
+                    run.Km(), run.location().toString(),run.runner(), run.id()))
             .update();
         Assert.state(updated == 1, "Failed to Update Run: " + run.title());
       }
