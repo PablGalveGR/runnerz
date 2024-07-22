@@ -3,10 +3,10 @@ function getTableHeaders(tableHeaders) {
   let headers = [];
   for (let i = 0; i < tableHeaders.length; i++) {
     let word = tableHeaders[i];
-    if(word == 'startedOn'){
+    if (word == 'startedOn') {
       word = 'started on';
     }
-    else if(word == 'completedOn'){
+    else if (word == 'completedOn') {
       word = 'completed on';
     }
     let firstLetter = word[0];
@@ -22,7 +22,7 @@ function addEditAndDelete(obj) {
 }
 
 let app = angular.module("runnerz", []);
-app.controller("runsController", function ($scope, $http) {
+app.controller("runsController", function ($scope, $http, $window) {
   $scope.runs = {};
   $scope.detailRun = false;
   $scope.editRun = false;
@@ -31,6 +31,15 @@ app.controller("runsController", function ($scope, $http) {
   $scope.runs = {};
   getAllUsers();
   getAllRuns();
+  function refreshAll() {
+    $scope.runs = {};
+    $scope.editRun = false;
+    $scope.detailRun = false;
+    $scope.users = {};
+    $scope.user = {};
+    getAllUsers();
+    getAllRuns();
+  }
   function getAllRuns() {
     $http.get("http://127.0.0.1:8080/api/runs").then(function (response) {
       let runs = response.data;
@@ -101,15 +110,19 @@ app.controller("runsController", function ($scope, $http) {
     $http.put("http://127.0.0.1:8080/api/runs/update/" + run.id, run).
       then(function () {
         console.log("Run edited boi");
-        $scope.runs = {};
-        $scope.editRun = false;
-        $scope.detailRun = false;
-        $scope.users = {};
-        $scope.user = {};
-        getAllUsers();
-        getAllRuns();
-
+        refreshAll();
       }),
       function () { console.log("Error updating run") };
+  }
+  ///Delete run
+  $scope.gotoDelete = function (run) {
+    let choice = $window.confirm("Are you sure to delete the run: id = " + run.id + " Title = " + run.title + " ?");
+    if (choice == true) {
+      console.log("Delete run");
+      $http.delete("http://127.0.0.1:8080/api/runs/delete/" + run.id).then(refreshAll());
+    }
+    else {
+      console.log("Cancel delete");
+    }
   }
 });

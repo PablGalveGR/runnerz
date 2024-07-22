@@ -14,7 +14,7 @@
   <div ng-app="runnerz" ng-controller="runsController">
     <p>AngularJS examples of data representation in tables:</p>
     <div>
-      <table>
+      <table class="runList">
         <tr>
           <th ng-repeat="header in headers">
             {{header}}
@@ -25,12 +25,14 @@
             <p class="pTable" ng-if="data != 'edit' && data != 'delete'" ng-click="goToDetail(run)">{{data}}</p>
             <p class="pTable" ng-if="data == 'edit'"><input type="button" name="{{data}}" ng-click="goToEdit(run)"
                 value="{{data}}"></p>
+            <p class="pTable" ng-if="data == 'delete'"><input type="button" name="{{data}}" ng-click="gotoDelete(run)"
+                value="{{data}}"></p>
           </td>
         </tr>
       </table>
       <div ng-if="detailRun == true">
         <h2>Run detail</h2>
-        <table>
+        <table class="runDetail">
           <tr ng-repeat="header in runHeaders">
             <th>
               {{header}}
@@ -41,7 +43,7 @@
       </div>
       <div ng-if="editRun == true">
         <h2>Run Edit</h2>
-        <table>
+        <table class="runEdit">
           <form id="editRunForm" action="./">
             <tr ng-repeat="header in runHeaders">
               <th>
@@ -60,8 +62,7 @@
                 <input ng-if="header == 'startedOn' || header == 'completedOn'" type="datetime-local" name="{{header}}"
                   value="{{run[header]}}">
                 <select name="{{header}}" ng-if="header == 'runner'">
-                  <option ng-repeat="user in users" value="{{user.id}}"
-                    ng-selected="user.username == run.runner">
+                  <option ng-repeat="user in users" value="{{user.id}}" ng-selected="user.username == run.runner">
                     {{user.username}}</option>
                 </select>
 
