@@ -28,17 +28,22 @@ app.controller("runsController", function ($scope, $http, $window) {
   $scope.editRun = false;
   $scope.users = {};
   $scope.run = {};
-  $scope.runs = {};
+  $scope.runs = [];
   getAllUsers();
   getAllRuns();
   function refreshAll() {
-    $scope.runs = {};
+    $scope.runs = [];
     $scope.editRun = false;
     $scope.detailRun = false;
     $scope.users = {};
     $scope.user = {};
     getAllUsers();
     getAllRuns();
+  }
+  function deleteRunFromList(run){
+    console.log(typeof $scope.runs);
+    let runIndexTodelete = $scope.runs.indexOf(run);
+    $scope.runs.splice(runIndexTodelete, 1);
   }
   function getAllRuns() {
     $http.get("http://127.0.0.1:8080/api/runs").then(function (response) {
@@ -50,7 +55,7 @@ app.controller("runsController", function ($scope, $http, $window) {
       for (let i = 0; i < runs.length; i++) {
         runs[i] = getUserName(runs[i]);
         if (i == runs.length - 1) {
-          $scope.runs = Object.assign({}, runs);
+          $scope.runs = Object.assign([], runs);
         }
       }
     });
@@ -119,7 +124,7 @@ app.controller("runsController", function ($scope, $http, $window) {
     let choice = $window.confirm("Are you sure to delete the run: id = " + run.id + " Title = " + run.title + " ?");
     if (choice == true) {
       console.log("Delete run");
-      $http.delete("http://127.0.0.1:8080/api/runs/delete/" + run.id).then(refreshAll());
+      $http.delete("http://127.0.0.1:8080/api/runs/delete/" + run.id).then(deleteRunFromList(run));
     }
     else {
       console.log("Cancel delete");
