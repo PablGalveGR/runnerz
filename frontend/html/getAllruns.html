@@ -13,7 +13,8 @@
 <body>
   <div ng-app="runnerz" ng-controller="runsController">
     <p>AngularJS examples of data representation in tables:</p>
-    <div>
+    <div class="runList">
+      <button ng-click="goToAddRun()">Add Run</button>
       <table class="runList">
         <tr>
           <th ng-repeat="header in headers">
@@ -30,38 +31,39 @@
           </td>
         </tr>
       </table>
-      <div ng-if="detailRun == true">
+      <div class ="runDetail" ng-if="detailRun == true">
         <h2>Run detail</h2>
         <table class="runDetail">
           <tr ng-repeat="header in runHeaders">
-            <th>
+            <th ng-if="header != '$$hashKey'">
               {{header}}
             </th>
-            <td>{{run[header]}}</td>
+            <td ng-if="header != '$$hashKey'">{{run[header]}}</td>
+            <p class="pTable" ng-if="data == 'edit'"><input type="button" name="{{data}}" ng-click="goToEdit(run)"
+              value="{{data}}"></p>
+            <p class="pTable" ng-if="data == 'delete'"><input type="button" name="{{data}}" ng-click="gotoDelete(run)"
+              value="{{data}}"></p>
           </tr>
         </table>
       </div>
-      <div ng-if="editRun == true">
-        <h2>Run Edit</h2>
-        <table class="runEdit">
-          <form id="editRunForm" action="./">
-            <tr ng-repeat="header in runHeaders">
-              <th>
+      <div ng-if="addRun == true">
+        <h2>Run Add</h2>
+        <table class="runAdd">
+          <form id="addRunForm" action="./">
+            <tr ng-repeat="header in addRunHeaders">
+              <th ng-if="header != '$$hashKey' && header != 'Id'">
                 {{header}}
               </th>
               <td>
-                <input type="number" value="{{run[header]}}" disabled ng-if="header == 'id'" name="{{header}}">
                 <input
-                  ng-if="header != 'startedOn' && header != 'completedOn' && header != 'id' && header != 'location' && header != 'runner'"
-                  type="text" name="{{header}}" placeholder="{{run[header]}}" value="{{run[header]}}">
-                <select name="{{header}}" ng-if="header == 'location'">
-                  <option value="{{run[header]}}" selected>{{run[header]}}</option>
-                  <option ng-if="run[header] != 'INNER'" value="INNER">INNER</option>
-                  <option ng-if="run[header] != 'OUTSIDE'" value="OUTSIDE">OUTSIDE</option>
+                  ng-if=" header != '$$hashKey' && header != 'Started on' && header != 'Completed on' && header != 'Id' && header != 'Location' && header != 'Runner'"
+                  type="text" name="{{header}}">
+                <select name="{{header}}" ng-if="header == 'Location'">
+                  <option value="INNER">INNER</option>
+                  <option value="OUTSIDE">OUTSIDE</option>
                 </select>
-                <input ng-if="header == 'startedOn' || header == 'completedOn'" type="datetime-local" name="{{header}}"
-                  value="{{run[header]}}">
-                <select name="{{header}}" ng-if="header == 'runner'">
+                <input ng-if="header == 'Started on' || header == 'Completed on'" type="datetime-local" name="{{header}}">
+                <select name="{{header}}" ng-if="header == 'Runner'">
                   <option ng-repeat="user in users" value="{{user.id}}" ng-selected="user.username == run.runner">
                     {{user.username}}</option>
                 </select>
@@ -69,13 +71,46 @@
               </td>
             </tr>
             <tr>
-              <td><input type="submit" name="edit" value="Edit" ng-click="getRunEdit()"></td>
+              <td><input type="submit" name="Add" value="Add" ng-click="getRunToAdd()"></td>
             </tr>
           </form>
         </table>
       </div>
+        <div ng-if="editRun == true">
+          <h2>Run Edit</h2>
+          <table class="runEdit">
+            <form id="editRunForm">
+              <tr ng-repeat="header in runHeaders">
+                <th ng-if = "header != '$$hashKey'">
+                  {{header}}
+                </th>
+                <td>
+                  <input type="number" value="{{run[header]}}" disabled ng-if="header == 'id'" name="{{header}}">
+                  <input
+                    ng-if=" header != '$$hashKey' && header != 'startedOn' && header != 'completedOn' && header != 'id' && header != 'location' && header != 'runner'"
+                    type="text" name="{{header}}" placeholder="{{run[header]}}" value="{{run[header]}}">
+                  <select name="{{header}}" ng-if="header == 'location'">
+                    <option value="{{run[header]}}" selected>{{run[header]}}</option>
+                    <option ng-if="run[header] != 'INNER'" value="INNER">INNER</option>
+                    <option ng-if="run[header] != 'OUTSIDE'" value="OUTSIDE">OUTSIDE</option>
+                  </select>
+                  <input ng-if="header == 'startedOn' || header == 'completedOn'" type="datetime-local"
+                    name="{{header}}" value="{{run[header]}}">
+                  <select name="{{header}}" ng-if="header == 'runner'">
+                    <option ng-repeat="user in users" value="{{user.id}}" ng-selected="user.username == run.runner">
+                      {{user.username}}</option>
+                  </select>
+
+                </td>
+              </tr>
+              <tr>
+                <td><input type="submit" name="edit" value="Edit" ng-click="getRunEdit()"></td>
+              </tr>
+            </form>
+          </table>
+        </div>
+      </div>
     </div>
-  </div>
 </body>
 
 </html>
