@@ -23,7 +23,6 @@ function addEditAndDelete(obj) {
 
 let app = angular.module("runnerz", []);
 app.controller("runsController", function ($scope, $http, $window) {
-  $scope.runs = {};
   $scope.detailRun = false;
   $scope.editRun = false;
   $scope.addRun = false;
@@ -96,29 +95,36 @@ app.controller("runsController", function ($scope, $http, $window) {
     $scope.editRun = false;
     $scope.addRun = true;
     let addRunHeaders = Object.keys(($scope.runs[0]));
-    addRunHeaders.splice(addRunHeaders.indexOf('edit'),1);
-    addRunHeaders.splice(addRunHeaders.indexOf('delete'),1);
+    addRunHeaders.splice(addRunHeaders.indexOf('edit'), 1);
+    addRunHeaders.splice(addRunHeaders.indexOf('delete'), 1);
     $scope.addRunHeaders = fomatHeaders(addRunHeaders);
   }
-  $scope.getRunToAdd = function(){
+  $scope.getRunToAdd = function () {
     let runToAdd = {};
-    for (property of Object.keys($scope.addRunHeaders)) {
-      let element = document.getElementsByName(property.value)[0];
-      let value = element.value;
-      runToAdd[property] = value;
+    let properties = Object.keys($scope.runs[0]);
+    properties.splice(properties.indexOf("edit"), 1);
+    properties.splice(properties.indexOf("delete"), 1);
+    properties.splice(properties.indexOf("id"), 1);
+    properties.splice(properties.indexOf("$$hashKey"), 1);
+    runToAdd.id = "";
+    for (property of properties) {
+      if (property != "$$hashKey") {
+        let element = document.getElementsByName(property)[0];
+        let value = element.value;
+        runToAdd[property] = value;
+      }
     }
-    console.log("Run to update: " + runToUpdate.id);
-    addRun(runToUpdate);
+    console.log("Run to add: " + runToAdd.title);
+    addRun(runToAdd);
   }
-  function addRun(run){
+  function addRun(run) {
     console.log("Run to add: " + run.id);
-    /*$http.put("http://127.0.0.1:8080/api/runs/update/" + run.id, run).
+    $http.put("http://127.0.0.1:8080/api/runs/update/" + run.id, run).
       then(function () {
-        console.log("Run edited boi");
+        console.log("Run added boi");
         refreshAll();
       }),
       function () { console.log("Error adding run") };
-  }*/
   }
   /*Edit Runs*/
   // Opens a run's edit view
@@ -132,10 +138,13 @@ app.controller("runsController", function ($scope, $http, $window) {
   // Retrieves the run that is going to be updated
   $scope.getRunEdit = function () {
     let runToUpdate = {};
-    for (property of Object.keys($scope.run)) {
-      let element = document.getElementsByName(property)[0];
-      let value = element.value;
-      runToUpdate[property] = value;
+    let properties = Object.keys($scope.run);
+    for (property of properties) {
+      if (property != "$$hashKey") {
+        let element = document.getElementsByName(property)[0];
+        let value = element.value;
+        runToUpdate[property] = value;
+      }
     }
     console.log("Run to update: " + runToUpdate.id);
     editRun(runToUpdate);
@@ -159,6 +168,7 @@ app.controller("runsController", function ($scope, $http, $window) {
   }
   // Delete run from the DB
   $scope.gotoDelete = function (run) {
+    $scope.editRun = false;
     let choice = $window.confirm("Are you sure to delete the run: id = " + run.id + " Title = " + run.title + " ?");
     if (choice == true) {
       console.log("Delete run");
