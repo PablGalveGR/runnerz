@@ -94,10 +94,11 @@ app.controller("runsController", function ($scope, $http, $window) {
     $scope.detailRun = false;
     $scope.editRun = false;
     $scope.addRun = true;
-    let addRunHeaders = Object.keys(($scope.runs[0]));
-    addRunHeaders.splice(addRunHeaders.indexOf('edit'), 1);
-    addRunHeaders.splice(addRunHeaders.indexOf('delete'), 1);
-    $scope.addRunHeaders = fomatHeaders(addRunHeaders);
+    $http.get('http://127.0.0.1:8080/api/runs/0').then(function(response){
+      let addRunHeaders = Object.keys((response.data));
+      $scope.addRunHeaders =addRunHeaders;
+    });
+    
   }
   $scope.getRunToAdd = function () {
     let runToAdd = {};
@@ -119,7 +120,7 @@ app.controller("runsController", function ($scope, $http, $window) {
   }
   function addRun(run) {
     console.log("Run to add: " + run.id);
-    $http.put("http://127.0.0.1:8080/api/runs/update/" + run.id, run).
+    $http.put("http://127.0.0.1:8080/api/runs" + run).
       then(function () {
         console.log("Run added boi");
         refreshAll();

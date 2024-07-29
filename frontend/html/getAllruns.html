@@ -51,19 +51,20 @@
         <table class="runAdd">
           <form id="addRunForm" action="./">
             <tr ng-repeat="header in addRunHeaders">
-              <th ng-if="header != '$$hashKey' && header != 'Id'">
+              <th ng-if = "header != '$$hashKey' && header != 'id'">
                 {{header}}
               </th>
               <td>
                 <input
-                  ng-if=" header != '$$hashKey' && header != 'Started on' && header != 'Completed on' && header != 'Id' && header != 'Location' && header != 'Runner'"
+                  ng-if=" header != '$$hashKey' && header != 'id' && header != 'startedOn' && header != 'completedOn' && header != 'id' && header != 'location' && header != 'runner'"
                   type="text" name="{{header}}">
-                <select name="{{header}}" ng-if="header == 'Location'">
+                <select name="{{header}}" ng-if="header == 'location'">
                   <option value="INNER">INNER</option>
                   <option value="OUTSIDE">OUTSIDE</option>
                 </select>
-                <input ng-if="header == 'Started on' || header == 'Completed on'" type="datetime-local" name="{{header}}">
-                <select name="{{header}}" ng-if="header == 'Runner'">
+                <input ng-if="header == 'startedOn' || header == 'completedOn'" type="datetime-local"
+                  name="{{header}}">
+                <select name="{{header}}" ng-if="header == 'runner'">
                   <option ng-repeat="user in users" value="{{user.id}}" ng-selected="user.username == run.runner">
                     {{user.username}}</option>
                 </select>
