@@ -107,7 +107,7 @@ app.controller("runsController", function ($scope, $http, $window) {
     properties.splice(properties.indexOf("delete"), 1);
     properties.splice(properties.indexOf("id"), 1);
     properties.splice(properties.indexOf("$$hashKey"), 1);
-    runToAdd.id = "";
+    runToAdd.id = null;
     for (property of properties) {
       if (property != "$$hashKey") {
         let element = document.getElementsByName(property)[0];
@@ -119,8 +119,8 @@ app.controller("runsController", function ($scope, $http, $window) {
     addRun(runToAdd);
   }
   function addRun(run) {
-    console.log("Run to add: " + run.id);
-    $http.put("http://127.0.0.1:8080/api/runs" + run).
+    console.log("Run to add: " + run.title);
+    $http.post("http://127.0.0.1:8080/api/runs",run).
       then(function () {
         console.log("Run added boi");
         refreshAll();

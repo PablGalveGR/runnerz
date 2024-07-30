@@ -66,14 +66,14 @@ public class RunController {
     return opRun;
   }
 
-  // create
+  // Create
   @ResponseStatus(HttpStatus.CREATED)
   @PostMapping("")
   void createRun(@Valid @RequestBody Run run) {
     runRepository.createRun(run);
   }
 
-  // update
+  // Update
   @ResponseStatus(HttpStatus.ACCEPTED)
   @PutMapping("update/{id}")
   void updateRun(@Valid @RequestBody Run run, @PathVariable int id) {
