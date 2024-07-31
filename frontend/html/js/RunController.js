@@ -94,7 +94,7 @@ app.controller("runsController", function ($scope, $http, $window) {
     $scope.detailRun = false;
     $scope.editRun = false;
     $scope.addRun = true;
-    $http.get('http://127.0.0.1:8080/api/runs/0').then(function(response){
+    $http.get('http://127.0.0.1:8080/api/runs/1').then(function(response){
       let addRunHeaders = Object.keys((response.data));
       $scope.addRunHeaders =addRunHeaders;
     });
@@ -102,11 +102,11 @@ app.controller("runsController", function ($scope, $http, $window) {
   }
   $scope.getRunToAdd = function () {
     let runToAdd = {};
-    let properties = Object.keys($scope.runs[0]);
-    properties.splice(properties.indexOf("edit"), 1);
-    properties.splice(properties.indexOf("delete"), 1);
+    //let properties = Object.keys($scope.runs[0]);
+    /*properties.splice(properties.indexOf("edit"), 1);
+    properties.splice(properties.indexOf("delete"), 1);*/
+    let properties = $scope.addRunHeaders;
     properties.splice(properties.indexOf("id"), 1);
-    properties.splice(properties.indexOf("$$hashKey"), 1);
     runToAdd.id = null;
     for (property of properties) {
       if (property != "$$hashKey") {
@@ -180,3 +180,143 @@ app.controller("runsController", function ($scope, $http, $window) {
     }
   }
 });
+// User Controller
+/*app.controller("usersController", function ($scope, $http, $window) {
+  $scope.detailUser = false;
+  $scope.editUser = false;
+  $scope.addUser = false;
+  $scope.users = {};
+  getAllUsers();
+  function refreshAll() {
+    $scope.runs = [];
+    $scope.editRun = false;
+    $scope.detailRun = false;
+    $scope.addRun = false;
+    $scope.users = {};
+    $scope.user = {};
+    getAllUsers();
+  }
+  // Gets all the Users of the database
+  function getAllUsers() {
+    $http.get("http://127.0.0.1:8080/api/users").then(function (response) {
+      $scope.users = response.data;
+    });
+  }
+  // Return the object with changing the runner id by the name of the runner
+  function getUserName(obj) {
+    $http.get("http://127.0.0.1:8080/api/users/name/" + obj.runner).then(function (response) {
+      let runner = response.data;
+      obj.runner = runner.username;
+      console.log("Username = " + runner.username);
+    }, function () { console.log("Error fetching runner name") });
+    return obj;
+  }
+  // Detail Run
+  // Opens the detailed a run's detailed view
+  $scope.goToDetailUser = function (object = "Not object received") {
+    $scope.detailUser = true;
+    $scope.editUser = false;
+    $scope.addUser = false;
+    $scope.getUser(object);
+    console.log("go to detail of: " + object.title + " With id: " + object.id);
+  }
+  // Gets a single user
+  $scope.getUser = function (user) {
+    $scope.user = Object.assign({}, user);
+    delete $scope.user.edit;
+    delete $scope.user.delete;
+    $scope.userHeaders = Object.keys(($scope.user));
+    console.log("Runner username set: " + $scope.user);
+  }
+  // Add run
+  // Sets the form headers
+  $scope.goToAddUser = function () {
+    $scope.detailUser = false;
+    $scope.editUser = false;
+    $scope.addUser = true;
+    $http.get('http://127.0.0.1:8080/api/runs/1').then(function(response){
+      let addRunHeaders = Object.keys((response.data));
+      $scope.addRunHeaders =addRunHeaders;
+    });
+    
+  }
+  $scope.getUserToAdd = function () {
+    let userToAdd = {};
+    //let properties = Object.keys($scope.runs[0]);
+    //properties.splice(properties.indexOf("edit"), 1);
+    //properties.splice(properties.indexOf("delete"), 1);
+    let properties = $scope.addRunHeaders;
+    properties.splice(properties.indexOf("id"), 1);
+    runToAdd.id = null;
+    for (property of properties) {
+      if (property != "$$hashKey") {
+        let element = document.getElementsByName(property)[0];
+        let value = element.value;
+        runToAdd[property] = value;
+      }
+    }
+    console.log("User to add: " + runToAdd.title);
+    addRun(runToAdd);
+  }
+  function addUser(user) {
+    console.log("Run to add: " + run.title);
+    $http.post("http://127.0.0.1:8080/api/runs",run).
+      then(function () {
+        console.log("Run added boi");
+        refreshAll();
+      }),
+      function () { console.log("Error adding run") };
+  }
+  // Edit Users
+  // Opens a users's edit view
+  $scope.goToEdit = function (object = "Not object received") {
+    $scope.detailRun = false;
+    $scope.editRun = true;
+    $scope.addRun = false;
+    $scope.getRun(object);
+    console.log("go to edit of: " + object.title + " With id: " + object.id);
+  }
+  // Retrieves the user that is going to be updated
+  $scope.getUserEdit = function () {
+    let runToUpdate = {};
+    let properties = Object.keys($scope.run);
+    for (property of properties) {
+      if (property != "$$hashKey") {
+        let element = document.getElementsByName(property)[0];
+        let value = element.value;
+        runToUpdate[property] = value;
+      }
+    }
+    console.log("Run to update: " + runToUpdate.id);
+    editUser(runToUpdate);
+  }
+  // Sends to the server a petition to update a run
+  function editUser(user) {
+    console.log("Run to edit: " + user.id);
+    $http.put("http://127.0.0.1:8080/api/runs/update/" + user.id, user).
+      then(function () {
+        console.log("User edited boi");
+        refreshAll();
+      }),
+      function () { console.log("Error updating user") };
+  }
+  // Delete
+  // Drops the selected run from the list of runs
+  function deleteUserFromList(run) {
+    console.log(typeof $scope.runs);
+    let runIndexTodelete = $scope.runs.indexOf(run);
+    $scope.runs.splice(runIndexTodelete, 1);
+  }
+  // Delete run from the DB
+  $scope.gotoDelete = function (run) {
+    $scope.editRun = false;
+    let choice = $window.confirm("Are you sure to delete the run: id = " + run.id + " Title = " + run.title + " ?");
+    if (choice == true) {
+      console.log("Delete run");
+      $http.delete("http://127.0.0.1:8080/api/runs/delete/" + run.id).then(deleteRunFromList(run));
+    }
+    else {
+      console.log("Cancel delete");
+    }
+  }
+});*/

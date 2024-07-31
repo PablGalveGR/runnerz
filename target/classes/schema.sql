@@ -13,3 +13,8 @@ CREATE TABLE IF NOT EXISTS Run (
     runner int not NULL,
     FOREIGN KEY(runner) REFERENCES Runner(id)
 );
+CREATE TABLE IF NOT EXISTS HeaderRun(
+    idHeader int  AUTO_INCREMENT PRIMARY KEY,
+    headerName VARCHAR(20) 
+
+);

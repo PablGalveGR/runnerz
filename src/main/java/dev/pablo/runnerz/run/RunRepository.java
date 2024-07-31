@@ -18,10 +18,10 @@ public class RunRepository {
 //Insert querys
   public int createRun(Run run) {
     String query = "INSERT INTO RUN"
-        + "(id, title, started_on, completed_on, km, location, runner)"
-        + "VALUES(?, ?, ?, ?, ?, ?, ?);";
+        + "(title, started_on, completed_on, km, location, runner)"
+        + "VALUES( ?, ?, ?, ?, ?, ?);";
     var updated = jdbcClient.sql(query)
-        .params(List.of(run.id(), run.title(), run.startedOn(),
+        .params(List.of(run.title(), run.startedOn(),
             run.completedOn(), run.Km(), run.location().toString(), run.runner()))
         .update();
     Assert.state(updated == 1, "Failed to create Run: " + run.title());
