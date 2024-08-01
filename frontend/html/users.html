@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../css/main.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+  <script src="../html/js/UserController.js"></script>
+  <title>Usernerz</title>
+</head>
+
+<body>
+  <div>
+    <div class="userTables" ng-app="usernerz" ng-controller="usersController">
+      <h2>Users</h2>
+      <div class="userList">
+        <button ng-click="goToAddUser()">Add User</button>
+        <table class="listTable">
+          <tr>
+            <th ng-repeat="header in headers">
+              {{header}}
+            </th>
+          </tr>
+          <tr ng-repeat="user in users" class="getTableLine">
+            <td ng-repeat="data in user">
+              <p class="pTable" ng-if="data != 'edit' && data != 'delete'" ng-click="goToDetail(user)">{{data}}</p>
+              <p class="pTable" ng-if="data == 'edit'"><input type="button" name="{{data}}" ng-click="goToEdit(user)"
+                  value="{{data}}"></p>
+              <p class="pTable" ng-if="data == 'delete'"><input type="button" name="{{data}}" ng-click="gotoDelete(user)"
+                  value="{{data}}"></p>
+            </td>
+          </tr>
+        </table>
+        <div class="userDetail" ng-if="detailUser == true">
+          <h2>User detail</h2>
+          <table class="detail">
+            <tr ng-repeat="header in userHeaders">
+              <th ng-if="header != '$$hashKey'">
+                {{header}}
+              </th>
+              <td ng-if="header != '$$hashKey'">{{user[header]}}</td>
+              <p class="pTable" ng-if="data == 'edit'"><input type="button" name="{{data}}" ng-click="goToEdit(user)"
+                  value="{{data}}"></p>
+              <p class="pTable" ng-if="data == 'delete'"><input type="button" name="{{data}}" ng-click="gotoDelete(user)"
+                  value="{{data}}"></p>
+            </tr>
+          </table>
+        </div>
+        <div class="addUser" ng-if="addUser == true">
+          <h2>User Add</h2>
+          <table class="add">
+            <form id="addForm" action="./">
+              <tr ng-repeat="header in addUserHeaders">
+                <th ng-if="header != '$$hashKey' && header != 'id'">
+                  {{header}}
+                </th>
+                <td>
+                  <input
+                    ng-if=" header != '$$hashKey' && header != 'id' && header != 'startedOn' && header != 'completedOn' && header != 'id' && header != 'location' && header != 'userner'"
+                    type="text" name="{{header}}">
+                  <select name="{{header}}" ng-if="header == 'location'">
+                    <option value="INNER">INNER</option>
+                    <option value="OUTSIDE">OUTSIDE</option>
+                  </select>
+                  <input ng-if="header == 'startedOn' || header == 'completedOn'" type="datetime-local"
+                    name="{{header}}">
+                  <select name="{{header}}" ng-if="header == 'userner'">
+                    <option ng-repeat="user in users" value="{{user.id}}" ng-selected="user.username == user.userner">
+                      {{user.username}}</option>
+                  </select>
+
+                </td>
+              </tr>
+              <tr>
+                <td><input type="submit" name="Add" value="Add" ng-click="getUserToAdd()"></td>
+              </tr>
+            </form>
+          </table>
+        </div>
+        <div class="editUser" ng-if="editUser == true">
+          <h2>User Edit</h2>
+          <table class="edit">
+            <form id="editUserForm">
+              <tr ng-repeat="header in userHeaders">
+                <th ng-if="header != '$$hashKey'">
+                  {{header}}
+                </th>
+                <td>
+                  <input type="number" value="{{user[header]}}" disabled ng-if="header == 'id'" name="{{header}}">
+                  <input
+                    ng-if=" header != '$$hashKey' && header != 'startedOn' && header != 'completedOn' && header != 'id' && header != 'location' && header != 'userner'"
+                    type="text" name="{{header}}" placeholder="{{user[header]}}" value="{{user[header]}}">
+                  <select name="{{header}}" ng-if="header == 'location'">
+                    <option value="{{user[header]}}" selected>{{user[header]}}</option>
+                    <option ng-if="user[header] != 'INNER'" value="INNER">INNER</option>
+                    <option ng-if="user[header] != 'OUTSIDE'" value="OUTSIDE">OUTSIDE</option>
+                  </select>
+                  <input ng-if="header == 'startedOn' || header == 'completedOn'" type="datetime-local"
+                    name="{{header}}" value="{{user[header]}}">
+                  <select name="{{header}}" ng-if="header == 'userner'">
+                    <option ng-repeat="user in users" value="{{user.id}}" ng-selected="user.username == user.userner">
+                      {{user.username}}</option>
+                  </select>
+
+                </td>
+              </tr>
+              <tr>
+                <td><input type="submit" name="edit" value="Edit" ng-click="getUserEdit()"></td>
+              </tr>
+            </form>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
