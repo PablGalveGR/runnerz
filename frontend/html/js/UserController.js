@@ -21,7 +21,7 @@ function fomatHeaders(tableHeaders) {
     obj.delete = "delete";
   }
   
-  let app = angular.module("usernerz", []);
+  let app = angular.module("runnerz", []);
   app.controller("usersController", function ($scope, $http, $window) {
     $scope.detailUser = false;
     $scope.editUser = false;
@@ -44,6 +44,7 @@ function fomatHeaders(tableHeaders) {
         //$scope.usersHeadersOrderBy = fomatHeaders(Object.keys((response.data[0])));
         users.forEach(addEditAndDelete);
         $scope.headers = fomatHeaders(Object.keys((users[0])));
+        $scope.users = Object.assign([], users);
       });
     }
     // Gets all the Users of the database
