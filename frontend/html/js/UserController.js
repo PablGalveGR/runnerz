@@ -47,12 +47,6 @@ function fomatHeaders(tableHeaders) {
         $scope.users = Object.assign([], users);
       });
     }
-    // Gets all the Users of the database
-    /*function getAllUsers() {
-      $http.get("http://127.0.0.1:8080/api/users").then(function (response) {
-        $scope.users = response.data;
-      });
-    }*/
     /*Detail User*/
     // Opens the detailed a user's detailed view
     $scope.goToDetail = function (object = "Not object received") {
@@ -97,11 +91,11 @@ function fomatHeaders(tableHeaders) {
           userToAdd[property] = value;
         }
       }
-      console.log("User to add: " + userToAdd.title);
+      ///console.log("User to add: " + userToAdd.title);
       addUser(userToAdd);
     }
     function addUser(user) {
-      console.log("User to add: " + user.title);
+      console.log("User to add: " + user.username);
       $http.post("http://127.0.0.1:8080/api/users",user).
         then(function () {
           console.log("User added boi");

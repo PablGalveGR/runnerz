@@ -18,18 +18,38 @@ public class UserRepository {
 
   // Insert querys
   public int createUser(User user) {
-    String query = "INSERT INTO USER" + "(id, username, password)"
-        + "VALUES( ?, ?, ?);";
+    String query = "INSERT INTO RUNNER" + "( username, password)"
+        + " VALUES(?, ?);";
     var updated = jdbcClient.sql(query)
-        .params(List.of(user.getId(), user.getUsername(), user.getPassword()))
-        .update();
-    Assert.state(updated == 1, "Failed to create Run: " + user.getUsername());
+        .params(List.of(user.getUsername(), user.getPassword())).update();
+    Assert.state(updated == 1,
+        "Failed to create User: " + user.getUsername());
     return updated;
   }
+
   // Update querys
-  public void updateUser(User user, int id){}
+  public void updateUser(User user, int id) {
+    if (user.id == id) {
+      Optional<User> existingRun = getUserById(id);
+      if (user.getPassword() == "") {
+        user.setPassword(existingRun.get().getPassword());
+      }
+      if (existingRun.isPresent()) {
+        String query = "UPDATE RUNNER SET username = ?, password = ? WHERE id = ?;";
+        var updated = jdbcClient.sql(query)
+            .params(List.of(user.getUsername(), user.getPassword()),
+                user.id)
+            .update();
+        Assert.state(updated == 1,
+            "Failed to Update User: " + user.username);
+      }
+    }
+  }
+
   // Delete querys
-  public void deleteUser(int id){}
+  public void deleteUser(int id) {
+  }
+
   // Select querys
   List<User> getAllUsers() {
     String query = "SELECT * FROM Runner;";

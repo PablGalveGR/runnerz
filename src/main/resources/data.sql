@@ -1,4 +1,4 @@
-INSERT INTO RUNNER(id, username, password)
+INSERT INTO RUNNER(username, password)
 VALUES
-(1, 'Paco', '123'),
-(2,'Francisco', '1234');
+('Paco', '123'),
+('Francisco', '1234');
