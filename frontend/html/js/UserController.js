@@ -146,7 +146,7 @@ function fomatHeaders(tableHeaders) {
     // Delete user from the DB
     $scope.gotoDelete = function (user) {
       $scope.editUser = false;
-      let choice = $window.confirm("Are you sure to delete the user: id = " + user.id + " Title = " + user.title + " ?");
+      let choice = $window.confirm("Are you sure to delete the user: id = " + user.id + " Title = " + user.username + " ?");
       if (choice == true) {
         console.log("Delete user");
         $http.delete("http://127.0.0.1:8080/api/users/delete/" + user.id).then(deleteUserFromList(user));

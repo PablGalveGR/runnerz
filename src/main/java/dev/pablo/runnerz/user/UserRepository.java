@@ -37,8 +37,7 @@ public class UserRepository {
       if (existingRun.isPresent()) {
         String query = "UPDATE RUNNER SET username = ?, password = ? WHERE id = ?;";
         var updated = jdbcClient.sql(query)
-            .params(List.of(user.getUsername(), user.getPassword()),
-                user.id)
+            .params(List.of(user.getUsername(), user.getPassword(), user.id))
             .update();
         Assert.state(updated == 1,
             "Failed to Update User: " + user.username);
