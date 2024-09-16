@@ -18,10 +18,10 @@ public class UserRepository {
 
   // Insert querys
   public int createUser(User user) {
-    String query = "INSERT INTO RUNNER" + "( username, password)"
+    String query = "INSERT INTO RUNNER" + "( username, birthDate, location)"
         + " VALUES(?, ?);";
     var updated = jdbcClient.sql(query)
-        .params(List.of(user.getUsername(), user.getPassword())).update();
+        .params(List.of(user.getUsername(), user.getBirthDate(), user.getLocation())).update();
     Assert.state(updated == 1,
         "Failed to create User: " + user.getUsername());
     return updated;
@@ -30,14 +30,11 @@ public class UserRepository {
   // Update querys
   public void updateUser(User user, int id) {
     if (user.id == id) {
-      Optional<User> existingRun = getUserById(id);
-      if (user.getPassword() == "") {
-        user.setPassword(existingRun.get().getPassword());
-      }
-      if (existingRun.isPresent()) {
-        String query = "UPDATE RUNNER SET username = ?, password = ? WHERE id = ?;";
+      Optional<User> existingUser = getUserById(id);
+      if (existingUser.isPresent()) {
+        String query = "UPDATE RUNNER SET username = ?, birthDate = ? , location = ? WHERE id = ?;";
         var updated = jdbcClient.sql(query)
-            .params(List.of(user.getUsername(), user.getPassword(), user.id))
+            .params(List.of(user.getUsername(), user.getBirthDate(), user.getLocation(), user.id))
             .update();
         Assert.state(updated == 1,
             "Failed to Update User: " + user.username);
@@ -47,6 +44,13 @@ public class UserRepository {
 
   // Delete querys
   public void deleteUser(int id) {
+    Optional<User> existingUser = getUserById(id);
+    if (existingUser.isPresent()) {
+      String query = "DELETE FROM runner WHERE id = :id;";
+      var updated = jdbcClient.sql(query).param("id", id).update();
+      Assert.state(updated == 1,
+          "Failed to Delete Run: " + existingUser.get().username);
+    }
   }
 
   // Select querys

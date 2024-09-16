@@ -35,9 +35,6 @@ public class UserController {//Never return the password to the Client
 @GetMapping("")
   List<User> findAllUsers() {
     List<User> users = userRepository.getAllUsers();
-    for (User user : users) {
-      user.setPassword(null);
-    }
     return users;
   }
 // General path plus an element to pass to the controller
@@ -58,7 +55,6 @@ public class UserController {//Never return the password to the Client
     }
     else{
       user = opUser.get();
-      user.setPassword(null);
     }
     return user;
   }

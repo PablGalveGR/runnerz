@@ -1,5 +1,7 @@
 package dev.pablo.runnerz.user;
 
+import java.sql.Date;
+
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
@@ -7,16 +9,18 @@ public class User {
   int id;
   @NotNull
   String username;
-  String password;
+  Date birthDate;
+  String location;
 
   public User() {
   }
 
   public User(@Positive int id, @NotNull String username,
-      String password) {
+      String password, Date birthDate, String location) {
     this.id = id;
     this.username = username;
-    this.password = password;
+    this.birthDate = birthDate;
+    this.location = location;
   }
 
   public int getId() {
@@ -27,10 +31,6 @@ public class User {
     return username;
   }
 
-  public String getPassword() {
-    return password;
-  }
-
   public void setId(int id) {
     this.id = id;
   }
@@ -39,8 +39,20 @@ public class User {
     this.username = username;
   }
 
-  public void setPassword(String password) {
-    this.password = password;
+  public Date getBirthDate() {
+    return this.birthDate;
+  }
+
+  public void setBirthDate(Date birthDate) {
+    this.birthDate = birthDate;
+  }
+
+  public String getLocation() {
+    return this.location;
+  }
+
+  public void setLocation(String location) {
+    this.location = location;
   }
 
 }

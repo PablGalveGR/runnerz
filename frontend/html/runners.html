@@ -7,13 +7,22 @@
   <link rel="stylesheet" href="../css/main.css">
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
   <script src="../html/js/UserController.js"></script>
-  <title>Users</title>
+  <title>Runners</title>
 </head>
 
 <body>
+  <header></header>
+    <div class="topnav">
+        <nav>
+            <a class="topMenuItem active " href ="index.html">Home</a>
+            <a class="topMenuItem" href="runs.html">Runs</a>
+            <a class="topMenuItem" href="#">Runners</a>
+        </nav>
+    </div>
+  </header>
   <div>
     <div class="userTables" ng-app="runnerz" ng-controller="usersController">
-      <h2>Users</h2>
+      <h2>Runners</h2>
       <div class="userList">
         <button ng-click="goToAddUser()">Add User</button>
         <table class="listTable">
@@ -57,19 +66,10 @@
                 </th>
                 <td>
                   <input
-                    ng-if=" header != '$$hashKey' && header != 'id' && header != 'startedOn' && header != 'completedOn' && header != 'id' && header != 'location' && header != 'userner'"
+                    ng-if=" header != '$$hashKey' && header != 'id' && header != 'birthDate'"
                     type="text" name="{{header}}">
-                  <select name="{{header}}" ng-if="header == 'location'">
-                    <option value="INNER">INNER</option>
-                    <option value="OUTSIDE">OUTSIDE</option>
-                  </select>
-                  <input ng-if="header == 'startedOn' || header == 'completedOn'" type="datetime-local"
+                  <input ng-if="header == 'birthDate'" type="date"
                     name="{{header}}">
-                  <select name="{{header}}" ng-if="header == 'userner'">
-                    <option ng-repeat="user in users" value="{{user.id}}" ng-selected="user.username == user.userner">
-                      {{user.username}}</option>
-                  </select>
-
                 </td>
               </tr>
               <tr>
